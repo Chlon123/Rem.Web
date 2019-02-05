@@ -7,14 +7,14 @@ namespace Remont.Web.Repositories.Migrations
     {
         public override void Up()
         {
-            AddColumn("dbo.Users", "DateCreated", c => c.DateTime());
-            AddColumn("dbo.Users", "LastModified", c => c.DateTime());
+            AddColumn("dbo.UsersRepository", "DateCreated", c => c.DateTime());
+            AddColumn("dbo.UsersRepository", "LastModified", c => c.DateTime());
         }
         
         public override void Down()
         {
-            DropColumn("dbo.Users", "LastModified");
-            DropColumn("dbo.Users", "DateCreated");
+            DropColumn("dbo.UsersRepository", "LastModified");
+            DropColumn("dbo.UsersRepository", "DateCreated");
         }
     }
 }

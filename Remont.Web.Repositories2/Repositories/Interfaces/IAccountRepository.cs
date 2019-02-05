@@ -1,4 +1,5 @@
 ﻿using Remont.Web.Models;
+using Remont.Web.Repositories2.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,28 +10,17 @@ namespace Remont.Web.Repositories.Repositories.Interfaces
 {
      public interface IAccountRepository
     {
-        IEnumerable<string> GetAccountEmailById(int accountId);
-
-        IEnumerable<string> GetPasswordByAccountId(int accountId);
-
-        bool DoesAccountHasEmail(string emailToCheck);
-
-        bool DoesAccountHasPassword(string password);
-
-        IEnumerable<Account> GetAccounts();
-
-        string GetEmail(Account account);
-
+        Account CreateAccount(Account accountToCreate);
         Account GetAccountById(int id);
-
-        int GetAccountId(Account account);
-
-        bool IsAccountCreated(Account accountToCreate);
-
-        Account AddAccount(Account accountToCreate);
-
+        IEnumerable<string> GetAccountEmailById(int accountId);
+        IEnumerable<string> GetPasswordByAccountId(int accountId);
+        IEnumerable<Account> GetAccounts();
         IEnumerable<Account> GetSingleAccount(Account account);
-
-
+        bool DoesAccountHasEmail(string emailToCheck);
+        bool DoesAccountHasPassword(string password);
+        bool IsAccountCreated(Account accountToCreate);
+        string GetEmail(Account account);
+        int GetAccountId(Account account);
+        RepositoryActionResult<Account> UpdateAccount(Account account);
     }
 }

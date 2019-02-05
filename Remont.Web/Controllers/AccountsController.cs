@@ -1,5 +1,6 @@
 ﻿using Remont.Web.Repositories;
 using Remont.Web.Repositories.Persistance;
+using Remont.Web.Repositories2.Repositories.EnumClasses;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,7 +32,7 @@ namespace Remont.Web.Controllers
         {
             try
             {
-                var allAccounts = _unitOfWork.Accounts.GetAccounts();
+                var allAccounts = _unitOfWork.AccountsRepository.GetAccounts();
 
                 return Ok(allAccounts);
             }
@@ -45,7 +46,7 @@ namespace Remont.Web.Controllers
         {
             try
             {
-                var oneAccount = _unitOfWork.Accounts.GetAccountById(id);
+                var oneAccount = _unitOfWork.AccountsRepository.GetAccountById(id);
                 if (oneAccount == null)
                 {
                     return NotFound();
@@ -71,13 +72,13 @@ namespace Remont.Web.Controllers
                     return BadRequest();
                 }
 
-                _unitOfWork.Accounts.AddAccount(accountToCreate);
+                _unitOfWork.AccountsRepository.CreateAccount(accountToCreate);
 
-                string id = _unitOfWork.Accounts.GetAccountId(accountToCreate).ToString();
+                string id = _unitOfWork.AccountsRepository.GetAccountId(accountToCreate).ToString();
 
-                if (_unitOfWork.Accounts.IsAccountCreated(accountToCreate))
+                if (_unitOfWork.AccountsRepository.IsAccountCreated(accountToCreate))
                 {
-                    return Created(Request.RequestUri + "/" + id, _unitOfWork.Accounts.GetSingleAccount(accountToCreate));
+                    return Created(Request.RequestUri + "/" + id, _unitOfWork.AccountsRepository.GetSingleAccount(accountToCreate));
                 }
                 return BadRequest();
             }
@@ -86,6 +87,42 @@ namespace Remont.Web.Controllers
                 return InternalServerError();                
             }
         }
+
+        //PUT only for complete updates
+        public IHttpActionResult Put(int id, [FromBody]Remont.Web.Models.Account account)
+        {
+
+            try
+            {
+                if (account == null)
+                {
+                    return BadRequest();
+                }
+
+                var acc =_unitOfWork.AccountsRepository.CreateAccount(account);
+                var update = _unitOfWork.AccountsRepository.UpdateAccount(acc);
+
+                if (update.Status == RepositoryActionStatus.Updated)
+                {
+                    var updatedAccounts = _unitOfWork.AccountsRepository.CreateAccount(update.Entity);
+                    return Ok(updatedAccounts);
+                }
+
+                else if(update.Status == RepositoryActionStatus.NotFound)
+                {
+                    return NotFound();
+                }
+
+                return BadRequest();
+            }
+            catch (Exception)
+            {
+
+                return InternalServerError();
+            }
+        }
+
+
 
     }
 }

@@ -8,7 +8,7 @@ namespace Remont.Web.Repositories.Migrations
         public override void Up()
         {
             CreateTable(
-                "dbo.Accounts",
+                "dbo.AccountsRepository",
                 c => new
                     {
                         AccountId = c.Int(nullable: false, identity: true),
@@ -20,11 +20,11 @@ namespace Remont.Web.Repositories.Migrations
                         ReturnUrl = c.String(),
                     })
                 .PrimaryKey(t => t.AccountId)
-                .ForeignKey("dbo.Users", t => t.AccountOfUserId)
+                .ForeignKey("dbo.UsersRepository", t => t.AccountOfUserId)
                 .Index(t => t.AccountOfUserId);
             
             CreateTable(
-                "dbo.Users",
+                "dbo.UsersRepository",
                 c => new
                     {
                         UserId = c.Int(nullable: false, identity: true),
@@ -56,7 +56,7 @@ namespace Remont.Web.Repositories.Migrations
                         AvatarOfUserId = c.Int(),
                     })
                 .PrimaryKey(t => t.AvatarId)
-                .ForeignKey("dbo.Users", t => t.AvatarOfUserId)
+                .ForeignKey("dbo.UsersRepository", t => t.AvatarOfUserId)
                 .Index(t => t.AvatarOfUserId);
             
             CreateTable(
@@ -70,7 +70,7 @@ namespace Remont.Web.Repositories.Migrations
                         BankAccountBalance = c.Decimal(nullable: false, precision: 18, scale: 2),
                     })
                 .PrimaryKey(t => t.BankAccountId)
-                .ForeignKey("dbo.Users", t => t.OwnerId)
+                .ForeignKey("dbo.UsersRepository", t => t.OwnerId)
                 .Index(t => t.OwnerId);
             
             CreateTable(
@@ -83,7 +83,7 @@ namespace Remont.Web.Repositories.Migrations
                         GradeOfUserId = c.Int(),
                     })
                 .PrimaryKey(t => t.GradeId)
-                .ForeignKey("dbo.Users", t => t.GradeOfUserId)
+                .ForeignKey("dbo.UsersRepository", t => t.GradeOfUserId)
                 .Index(t => t.GradeOfUserId);
             
             CreateTable(
@@ -130,7 +130,7 @@ namespace Remont.Web.Repositories.Migrations
                         LocalizationId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => new { t.UserId, t.LocalizationId })
-                .ForeignKey("dbo.Users", t => t.UserId, cascadeDelete: true)
+                .ForeignKey("dbo.UsersRepository", t => t.UserId, cascadeDelete: true)
                 .ForeignKey("dbo.UsersLocalizations", t => t.LocalizationId, cascadeDelete: true)
                 .Index(t => t.UserId)
                 .Index(t => t.LocalizationId);
@@ -143,7 +143,7 @@ namespace Remont.Web.Repositories.Migrations
                         OrderId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => new { t.UserId, t.OrderId })
-                .ForeignKey("dbo.Users", t => t.UserId, cascadeDelete: true)
+                .ForeignKey("dbo.UsersRepository", t => t.UserId, cascadeDelete: true)
                 .ForeignKey("dbo.Orders", t => t.OrderId, cascadeDelete: true)
                 .Index(t => t.UserId)
                 .Index(t => t.OrderId);
@@ -153,14 +153,14 @@ namespace Remont.Web.Repositories.Migrations
         public override void Down()
         {
             DropForeignKey("dbo.OrdersOfUser", "OrderId", "dbo.Orders");
-            DropForeignKey("dbo.OrdersOfUser", "UserId", "dbo.Users");
+            DropForeignKey("dbo.OrdersOfUser", "UserId", "dbo.UsersRepository");
             DropForeignKey("dbo.OrdersLocalizations", "LocalizationOfOrderId", "dbo.Orders");
             DropForeignKey("dbo.UserLocalizations", "LocalizationId", "dbo.UsersLocalizations");
-            DropForeignKey("dbo.UserLocalizations", "UserId", "dbo.Users");
-            DropForeignKey("dbo.Grades", "GradeOfUserId", "dbo.Users");
-            DropForeignKey("dbo.BankAccounts", "OwnerId", "dbo.Users");
-            DropForeignKey("dbo.Avatars", "AvatarOfUserId", "dbo.Users");
-            DropForeignKey("dbo.Accounts", "AccountOfUserId", "dbo.Users");
+            DropForeignKey("dbo.UserLocalizations", "UserId", "dbo.UsersRepository");
+            DropForeignKey("dbo.Grades", "GradeOfUserId", "dbo.UsersRepository");
+            DropForeignKey("dbo.BankAccounts", "OwnerId", "dbo.UsersRepository");
+            DropForeignKey("dbo.Avatars", "AvatarOfUserId", "dbo.UsersRepository");
+            DropForeignKey("dbo.AccountsRepository", "AccountOfUserId", "dbo.UsersRepository");
             DropIndex("dbo.OrdersOfUser", new[] { "OrderId" });
             DropIndex("dbo.OrdersOfUser", new[] { "UserId" });
             DropIndex("dbo.UserLocalizations", new[] { "LocalizationId" });
@@ -169,7 +169,7 @@ namespace Remont.Web.Repositories.Migrations
             DropIndex("dbo.Grades", new[] { "GradeOfUserId" });
             DropIndex("dbo.BankAccounts", new[] { "OwnerId" });
             DropIndex("dbo.Avatars", new[] { "AvatarOfUserId" });
-            DropIndex("dbo.Accounts", new[] { "AccountOfUserId" });
+            DropIndex("dbo.AccountsRepository", new[] { "AccountOfUserId" });
             DropTable("dbo.OrdersOfUser");
             DropTable("dbo.UserLocalizations");
             DropTable("dbo.OrdersLocalizations");
@@ -178,8 +178,8 @@ namespace Remont.Web.Repositories.Migrations
             DropTable("dbo.Grades");
             DropTable("dbo.BankAccounts");
             DropTable("dbo.Avatars");
-            DropTable("dbo.Users");
-            DropTable("dbo.Accounts");
+            DropTable("dbo.UsersRepository");
+            DropTable("dbo.AccountsRepository");
         }
     }
 }

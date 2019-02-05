@@ -1,5 +1,6 @@
 ﻿using Remont.Web.Repositories.Repositories;
 using Remont.Web.Repositories.Repositories.Interfaces;
+using Remont.Web.Repositories2.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,15 +12,14 @@ namespace Remont.Web.Repositories.Persistance
     public class UnitOfWork : IUnitOfWork
     {
         private readonly RepositoryDbContext _context;
-
-        public IAccountRepository Accounts { get; set; }
-        public IUserRepository Users { get; set; }
+        public IAccountRepository AccountsRepository { get; set; }
+        public IUserRepository UsersRepository { get; set; }
 
         public UnitOfWork(RepositoryDbContext context)
         {
             _context = context;
-            Accounts = new AccountRepository(context);
-            Users = new UserRepository(context);
+            AccountsRepository = new AccountRepository(context);
+            UsersRepository = new UserRepository(context);
         }
 
         public void Complete()

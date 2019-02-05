@@ -7,14 +7,14 @@ namespace Remont.Web.Repositories.Migrations
     {
         public override void Up()
         {
-            AlterColumn("dbo.Users", "LastName", c => c.String());
-            AlterColumn("dbo.Users", "PostalCode", c => c.String());
+            AlterColumn("dbo.UsersRepository", "LastName", c => c.String());
+            AlterColumn("dbo.UsersRepository", "PostalCode", c => c.String());
         }
         
         public override void Down()
         {
-            AlterColumn("dbo.Users", "PostalCode", c => c.Int(nullable: false));
-            AlterColumn("dbo.Users", "LastName", c => c.Int(nullable: false));
+            AlterColumn("dbo.UsersRepository", "PostalCode", c => c.Int(nullable: false));
+            AlterColumn("dbo.UsersRepository", "LastName", c => c.Int(nullable: false));
         }
     }
 }

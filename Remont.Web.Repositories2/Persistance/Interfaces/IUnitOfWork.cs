@@ -9,9 +9,8 @@ namespace Remont.Web.Repositories.Persistance
 {
     public interface IUnitOfWork
     {
-        IAccountRepository Accounts { get; set; }
-        IUserRepository Users { get; set; }
-
+        IAccountRepository AccountsRepository { get; set; }
+        IUserRepository UsersRepository { get; set; }
         void Complete();
 
 

@@ -1,7 +1,10 @@
 ﻿using Remont.Web.Models;
 using Remont.Web.Repositories.Repositories.Interfaces;
+using Remont.Web.Repositories2.Repositories;
+using Remont.Web.Repositories2.Repositories.EnumClasses;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,21 +20,17 @@ namespace Remont.Web.Repositories.Repositories
             _context = context;
         }
 
-        public Account AddAccount(Account accountToCreate)
+        public Account CreateAccount(Account accountToCreate)
         {
-            _context.Accounts.Add(accountToCreate);
-            //GetAccounts()
-            //.Select(a => new Account
-            //{
-            //    AccountId = a.AccountId,
-            //    AccountEmailAsLogin = a.AccountEmailAsLogin,
-            //    AccountPassword = a.AccountPassword,
-            //    DateCreated = DateTime.Now,
-            //    LastModified = DateTime.Now
-            //});
-            _context.SaveChanges();
-
-            return accountToCreate;
+            return new Account()
+            {
+                AccountId = accountToCreate.AccountId,
+                AccountEmailAsLogin = accountToCreate.AccountEmailAsLogin,
+                AccountOfUserId = accountToCreate.AccountOfUserId,
+                AccountPassword = accountToCreate.AccountPassword,
+                DateCreated = DateTime.Now,
+                LastModified = DateTime.Now
+            };
         }
 
         public bool IsAccountCreated(Account accountToCheck)
@@ -130,5 +129,47 @@ namespace Remont.Web.Repositories.Repositories
             return lookedAcc;
         }
 
+        public RepositoryActionResult<Account> UpdateAccount(Account account)
+        {
+            try
+            {
+                // you can only update when an expensegroup already exists for this id
+                var existingAcc = _context.Accounts.FirstOrDefault(a => a.AccountId == account.AccountId);
+
+                if (existingAcc == null)
+                {
+                    return new RepositoryActionResult<Account>(account, RepositoryActionStatus.NotFound);
+                }
+
+                // change the original entity status to detached; otherwise, we get an error on attach
+                // as the entity is already in the dbSet
+
+                // set orginal entity state to detached
+                _context.Entry(existingAcc).State = EntityState.Detached;
+
+                // attach & save
+                _context.Accounts.Attach(account);
+
+                // set the updated entity state to modified, so it gets updated.
+                _context.Entry(account).State = EntityState.Modified;
+
+                var result = _context.SaveChanges();
+
+                if (result > 0)
+                {
+                    return new RepositoryActionResult<Account>(account, RepositoryActionStatus.Updated);
+                }
+                else
+                {
+                    return new RepositoryActionResult<Account>(account, RepositoryActionStatus.NothingModified, null);
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
+        }
     }
 }

@@ -7,14 +7,14 @@ namespace Remont.Web.Repositories.Migrations
     {
         public override void Up()
         {
-            DropColumn("dbo.Users", "DateCreated");
-            DropColumn("dbo.Users", "LastModified");
+            DropColumn("dbo.UsersRepository", "DateCreated");
+            DropColumn("dbo.UsersRepository", "LastModified");
         }
         
         public override void Down()
         {
-            AddColumn("dbo.Users", "LastModified", c => c.DateTime());
-            AddColumn("dbo.Users", "DateCreated", c => c.DateTime());
+            AddColumn("dbo.UsersRepository", "LastModified", c => c.DateTime());
+            AddColumn("dbo.UsersRepository", "DateCreated", c => c.DateTime());
         }
     }
 }
@@ -22,7 +22,7 @@ namespace Remont.Web.Repositories.Migrations
 //{
 //    Sql("insert into" +
 
-//        " Users " +
+//        " UsersRepository " +
 //        "(Name," +
 //        "LastName," +
 //        "Birthdate," +
@@ -54,7 +54,7 @@ namespace Remont.Web.Repositories.Migrations
 
 //    Sql("insert into" +
 
-//       " Users " +
+//       " UsersRepository " +
 //       "(Name," +
 //       "LastName," +
 //       "Birthdate," +
@@ -87,7 +87,7 @@ namespace Remont.Web.Repositories.Migrations
 
 //public override void Down()
 //{
-//    Sql("delete from Users where UserEmailAdress = 'test1@gmail.com'");
-//    Sql("delete from Users where UserEmailAdress = 'test2@gmail.com'");
+//    Sql("delete from UsersRepository where UserEmailAdress = 'test1@gmail.com'");
+//    Sql("delete from UsersRepository where UserEmailAdress = 'test2@gmail.com'");
 
 //}

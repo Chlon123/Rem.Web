@@ -1,0 +1,5 @@
+C:\Users\kacch\source\C#.Web.Projects\Remont.Web\Remont.Web.Models\bin\Debug\Remont.Web.Models.dll
+C:\Users\kacch\source\C#.Web.Projects\Remont.Web\Remont.Web.Models\bin\Debug\Remont.Web.Models.pdb
+C:\Users\kacch\source\C#.Web.Projects\Remont.Web\Remont.Web.Models\obj\Debug\Remont.Web.Models.csproj.CoreCompileInputs.cache
+C:\Users\kacch\source\C#.Web.Projects\Remont.Web\Remont.Web.Models\obj\Debug\Remont.Web.Models.dll
+C:\Users\kacch\source\C#.Web.Projects\Remont.Web\Remont.Web.Models\obj\Debug\Remont.Web.Models.pdb

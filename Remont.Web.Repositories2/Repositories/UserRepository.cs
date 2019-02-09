@@ -33,5 +33,32 @@ namespace Remont.Web.Repositories.Repositories
                 .Select(u => u.LastName)
                 .ToList();
         }
+
+        public User CreateUser(User newUser, Account accountToConnectWith)
+        {
+            User createdUser = new User()
+            {
+                UserSpecializations = newUser.UserSpecializations,
+                UserPhoneNumber = newUser.UserPhoneNumber,
+                UserEmailAdress = accountToConnectWith.AccountEmailAsLogin,
+                UserYearsOfExperience = newUser.UserYearsOfExperience,
+                DescriptionOfUser = newUser.DescriptionOfUser,
+                Name = newUser.Name,
+                LastName = newUser.Name,
+                BirthDate = newUser.BirthDate,
+                Age = newUser.Age,
+                City = newUser.City,
+                State = newUser.State,
+                PostalCode = newUser.PostalCode,
+                Country = newUser.Country,
+                DateCreated = DateTime.Now,
+                LastModified = DateTime.Now
+            };
+
+            _context.Users.Add(createdUser);
+            _context.SaveChanges();
+
+            return createdUser;
+        }
     }
 }

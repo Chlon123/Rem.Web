@@ -49,45 +49,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DbContexts\DbContextsMagicStrings.cs" />
-    <Compile Include="Migrations\201902011823342_InitialMigrationForTheDatabase.cs" />
-    <Compile Include="Migrations\201902011823342_InitialMigrationForTheDatabase.Designer.cs">
-      <DependentUpon>201902011823342_InitialMigrationForTheDatabase.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201902011840149_ChangeEnumToStringProperty.cs" />
-    <Compile Include="Migrations\201902011840149_ChangeEnumToStringProperty.Designer.cs">
-      <DependentUpon>201902011840149_ChangeEnumToStringProperty.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201902011840367_PopulateUserDb.cs" />
-    <Compile Include="Migrations\201902011840367_PopulateUserDb.Designer.cs">
-      <DependentUpon>201902011840367_PopulateUserDb.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201902020005572_ChangeTypeOfPropertiesInUser.cs" />
-    <Compile Include="Migrations\201902020005572_ChangeTypeOfPropertiesInUser.Designer.cs">
-      <DependentUpon>201902020005572_ChangeTypeOfPropertiesInUser.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201902020950088_ChangeToNullableDateTimeForAllClasses.cs" />
-    <Compile Include="Migrations\201902020950088_ChangeToNullableDateTimeForAllClasses.Designer.cs">
-      <DependentUpon>201902020950088_ChangeToNullableDateTimeForAllClasses.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201902020954191_GetRidOfTimeNotificationOnUserDb.cs" />
-    <Compile Include="Migrations\201902020954191_GetRidOfTimeNotificationOnUserDb.Designer.cs">
-      <DependentUpon>201902020954191_GetRidOfTimeNotificationOnUserDb.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201902021001159_AddToUserInterfaceModificationHistory.cs" />
-    <Compile Include="Migrations\201902021001159_AddToUserInterfaceModificationHistory.Designer.cs">
-      <DependentUpon>201902021001159_AddToUserInterfaceModificationHistory.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201902021020129_ChangePhoneNumberFromIntToString.cs" />
-    <Compile Include="Migrations\201902021020129_ChangePhoneNumberFromIntToString.Designer.cs">
-      <DependentUpon>201902021020129_ChangePhoneNumberFromIntToString.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201902021021049_PopulateDatabaseOfUsers.cs" />
-    <Compile Include="Migrations\201902021021049_PopulateDatabaseOfUsers.Designer.cs">
-      <DependentUpon>201902021021049_PopulateDatabaseOfUsers.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201902021113313_InsertUsersIntoAccounts.cs" />
-    <Compile Include="Migrations\201902021113313_InsertUsersIntoAccounts.Designer.cs">
-      <DependentUpon>201902021113313_InsertUsersIntoAccounts.cs</DependentUpon>
+    <Compile Include="Migrations\201902072037567_InitialModel.cs" />
+    <Compile Include="Migrations\201902072037567_InitialModel.Designer.cs">
+      <DependentUpon>201902072037567_InitialModel.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Persistance\Interfaces\IUnitOfWork.cs" />
@@ -95,8 +59,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="DbContexts\RepositoryDbContext.cs" />
     <Compile Include="Repositories\AccountRepository.cs" />
+    <Compile Include="Repositories\AUConnectionRepository.cs" />
     <Compile Include="Repositories\EnumClasses\RepositoryActionStatus.cs" />
     <Compile Include="Repositories\Interfaces\IAccountRepository.cs" />
+    <Compile Include="Repositories\Interfaces\IAUConnectingRepository.cs" />
     <Compile Include="Repositories\Interfaces\IUserRepository.cs" />
     <Compile Include="Repositories\RepositoryActionResult.cs" />
     <Compile Include="Repositories\UserRepository.cs" />
@@ -115,35 +81,8 @@
     <Folder Include="DbContexts\Migrations\" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201902011823342_InitialMigrationForTheDatabase.resx">
-      <DependentUpon>201902011823342_InitialMigrationForTheDatabase.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201902011840149_ChangeEnumToStringProperty.resx">
-      <DependentUpon>201902011840149_ChangeEnumToStringProperty.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201902011840367_PopulateUserDb.resx">
-      <DependentUpon>201902011840367_PopulateUserDb.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201902020005572_ChangeTypeOfPropertiesInUser.resx">
-      <DependentUpon>201902020005572_ChangeTypeOfPropertiesInUser.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201902020950088_ChangeToNullableDateTimeForAllClasses.resx">
-      <DependentUpon>201902020950088_ChangeToNullableDateTimeForAllClasses.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201902020954191_GetRidOfTimeNotificationOnUserDb.resx">
-      <DependentUpon>201902020954191_GetRidOfTimeNotificationOnUserDb.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201902021001159_AddToUserInterfaceModificationHistory.resx">
-      <DependentUpon>201902021001159_AddToUserInterfaceModificationHistory.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201902021020129_ChangePhoneNumberFromIntToString.resx">
-      <DependentUpon>201902021020129_ChangePhoneNumberFromIntToString.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201902021021049_PopulateDatabaseOfUsers.resx">
-      <DependentUpon>201902021021049_PopulateDatabaseOfUsers.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201902021113313_InsertUsersIntoAccounts.resx">
-      <DependentUpon>201902021113313_InsertUsersIntoAccounts.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201902072037567_InitialModel.resx">
+      <DependentUpon>201902072037567_InitialModel.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -10,6 +10,7 @@ namespace Remont.Web.Models
 {
     public class Account : IModificationHistory
     {
+        [Key]
         public int AccountId { get; set; }
 
         [DataType(DataType.EmailAddress)]
@@ -25,8 +26,6 @@ namespace Remont.Web.Models
         public User AccountOfUser { get; set; }
 
         public int? AccountOfUserId { get; set; }
-
-        public string ReturnUrl { get; set; }
 
     }
 }

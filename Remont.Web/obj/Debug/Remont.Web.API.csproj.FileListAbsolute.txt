@@ -108,3 +108,4 @@ C:\Users\kacch\source\C#.Web.Projects\Remont.Web\Remont.Web\obj\Debug\Remont.Web
 C:\Users\kacch\source\C#.Web.Projects\Remont.Web\Remont.Web\obj\Debug\Remont.Web.API.csproj.CoreCompileInputs.cache
 C:\Users\kacch\source\C#.Web.Projects\Remont.Web\Remont.Web\obj\Debug\Remont.Web.dll
 C:\Users\kacch\source\C#.Web.Projects\Remont.Web\Remont.Web\obj\Debug\Remont.Web.pdb
+C:\Users\kacch\source\C#.Web.Projects\Remont.Web\Remont.Web\bin\Marvin.JsonPatch.dll

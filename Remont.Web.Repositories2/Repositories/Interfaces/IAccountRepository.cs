@@ -22,5 +22,7 @@ namespace Remont.Web.Repositories.Repositories.Interfaces
         string GetEmail(Account account);
         int GetAccountId(Account account);
         RepositoryActionResult<Account> UpdateAccount(Account account);
+        RepositoryActionResult<Account> DeleteAccount(int id);
+
     }
 }

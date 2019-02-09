@@ -1,4 +1,5 @@
-﻿using Remont.Web.Repositories;
+﻿using Marvin.JsonPatch;
+using Remont.Web.Repositories;
 using Remont.Web.Repositories.Persistance;
 using Remont.Web.Repositories2.Repositories.EnumClasses;
 using System;
@@ -72,13 +73,13 @@ namespace Remont.Web.Controllers
                     return BadRequest();
                 }
 
-                _unitOfWork.AccountsRepository.CreateAccount(accountToCreate);
+                var accountCreated =_unitOfWork.AccountsRepository.CreateAccount(accountToCreate);
 
-                string id = _unitOfWork.AccountsRepository.GetAccountId(accountToCreate).ToString();
+                string id = _unitOfWork.AccountsRepository.GetAccountId(accountCreated).ToString();
 
                 if (_unitOfWork.AccountsRepository.IsAccountCreated(accountToCreate))
                 {
-                    return Created(Request.RequestUri + "/" + id, _unitOfWork.AccountsRepository.GetSingleAccount(accountToCreate));
+                    return Created(Request.RequestUri + "/" + id, _unitOfWork.AccountsRepository.GetSingleAccount(accountCreated));
                 }
                 return BadRequest();
             }
@@ -89,6 +90,7 @@ namespace Remont.Web.Controllers
         }
 
         //PUT only for complete updates
+        [HttpPut]
         public IHttpActionResult Put(int id, [FromBody]Remont.Web.Models.Account account)
         {
 
@@ -122,7 +124,63 @@ namespace Remont.Web.Controllers
             }
         }
 
+        [HttpPatch]
+        public IHttpActionResult Patch(int id, [FromBody]JsonPatchDocument<Remont.Web.Models.Account> accountPatchDocument)
+        {
+            try
+            {
+                if (accountPatchDocument == null)
+                {
+                    return BadRequest();
+                }
+                var account = _unitOfWork.AccountsRepository.GetAccountById(id);
+                if (account == null)
+                {
+                    return NotFound();
+                }
 
+                var acc = _unitOfWork.AccountsRepository.CreateAccount(account);
+
+                accountPatchDocument.ApplyTo(acc);
+
+                var result = _unitOfWork.AccountsRepository.UpdateAccount(_unitOfWork.AccountsRepository.CreateAccount(acc));
+                if (result.Status == RepositoryActionStatus.Updated)
+                {
+                    var patchedAccount = _unitOfWork.AccountsRepository.CreateAccount(result.Entity);
+                    return Ok(patchedAccount);
+                }
+                return BadRequest();
+            }
+            catch (Exception)
+            {
+                return InternalServerError();
+            }
+        }
+
+        [HttpDelete]
+        public IHttpActionResult Delete(int id)
+        {
+            try
+            {
+                var result = _unitOfWork.AccountsRepository.DeleteAccount(id);
+
+                if (result.Status == RepositoryActionStatus.Deleted)
+                {
+                    return StatusCode(HttpStatusCode.NoContent);
+                }
+                else if(result.Status == RepositoryActionStatus.NotFound)
+                {
+                    return NotFound();
+                }
+
+                return BadRequest();
+            }
+            catch (Exception)
+            {
+
+                return InternalServerError();
+            }
+        }
 
     }
 }

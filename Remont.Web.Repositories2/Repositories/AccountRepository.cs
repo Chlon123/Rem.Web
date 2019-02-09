@@ -20,25 +20,31 @@ namespace Remont.Web.Repositories.Repositories
             _context = context;
         }
 
+
         public Account CreateAccount(Account accountToCreate)
         {
-            return new Account()
+
+            Account newAcc = new Account()
             {
-                AccountId = accountToCreate.AccountId,
-                AccountEmailAsLogin = accountToCreate.AccountEmailAsLogin,
-                AccountOfUserId = accountToCreate.AccountOfUserId,
-                AccountPassword = accountToCreate.AccountPassword,
-                DateCreated = DateTime.Now,
-                LastModified = DateTime.Now
+            AccountEmailAsLogin = accountToCreate.AccountEmailAsLogin,
+            AccountPassword = accountToCreate.AccountPassword,
+            DateCreated = DateTime.Now,
+            LastModified = DateTime.Now,
             };
+
+            _context.Accounts.Add(newAcc);
+            _context.SaveChanges();
+
+            return newAcc;
+
         }
 
         public bool IsAccountCreated(Account accountToCheck)
         {
             var check = _context.Accounts
-                        .Where(a => a.AccountEmailAsLogin == accountToCheck.AccountEmailAsLogin);
+                        .Where(a => a.AccountEmailAsLogin == accountToCheck.AccountEmailAsLogin).FirstOrDefault();
 
-            if (check.FirstOrDefault() != null)
+            if (check != null)
             {
                 return true;
             }
@@ -99,7 +105,7 @@ namespace Remont.Web.Repositories.Repositories
             return GetAccounts()
                 .Where(a => a.AccountId == account.AccountId)
                 .Select(a => a.AccountId)
-                .FirstOrDefault();
+                .SingleOrDefault();
         }
 
         public IEnumerable<Account> GetAccounts()
@@ -170,6 +176,36 @@ namespace Remont.Web.Repositories.Repositories
                 throw;
             }
 
+        }
+
+        public RepositoryActionResult<Account> DeleteAccount(int id)
+        {
+            try
+            {
+                var accountToDelete = _context.Accounts.Where(a => a.AccountId == id).FirstOrDefault();
+
+                if (accountToDelete == null)
+                {
+                    return new RepositoryActionResult<Account>(accountToDelete, RepositoryActionStatus.NotFound);
+                }
+
+                _context.Accounts.Remove(accountToDelete);
+                _context.SaveChanges();
+
+                if (_context.Accounts.Where(a => a.AccountId == accountToDelete.AccountId).FirstOrDefault() != null)
+                {
+                    return new RepositoryActionResult<Account>(accountToDelete, RepositoryActionStatus.NothingModified);
+                }
+                else
+                {
+                    return new RepositoryActionResult<Account>(accountToDelete, RepositoryActionStatus.Deleted);
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
     }
 }

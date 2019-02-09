@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Remont.Web.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,6 +11,6 @@ namespace Remont.Web.Repositories.Repositories.Interfaces
     {
         IEnumerable<string> GetUserNameById(int userId);
         IEnumerable<string> GetUserLastNameById(int userId);
-
+        User CreateUser(User newUser, Account accountToConnectWith);
     }
 }

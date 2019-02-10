@@ -18,7 +18,7 @@ namespace Remont.Web.API.App_Start
             config.MapHttpAttributeRoutes();
 
             config.Routes.MapHttpRoute(
-                name: "DefaultRouting",
+                name: "API Default",
                 routeTemplate: "api/{controller}/{id}",
                 defaults: new { id = RouteParameter.Optional });
 

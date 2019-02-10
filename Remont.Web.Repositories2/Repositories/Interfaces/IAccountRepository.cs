@@ -12,17 +12,12 @@ namespace Remont.Web.Repositories.Repositories.Interfaces
     {
         Account CreateAccount(Account accountToCreate);
         Account GetAccountById(int id);
-        IEnumerable<string> GetAccountEmailById(int accountId);
-        IEnumerable<string> GetPasswordByAccountId(int accountId);
         IEnumerable<Account> GetAccounts();
-        IEnumerable<Account> GetSingleAccount(Account account);
-        bool DoesAccountHasEmail(string emailToCheck);
-        bool DoesAccountHasPassword(string password);
-        bool IsAccountCreated(Account accountToCreate);
-        string GetEmail(Account account);
+        bool IsAccountCreated(Account accountToCheck);
         int GetAccountId(Account account);
-        RepositoryActionResult<Account> UpdateAccount(Account account);
+        RepositoryActionResult<Account> UpdateAccount(Account accountToUpdate);
         RepositoryActionResult<Account> DeleteAccount(int id);
+        IEnumerable<Account> GetSortedAccounts(string sortingParameter);
 
     }
 }

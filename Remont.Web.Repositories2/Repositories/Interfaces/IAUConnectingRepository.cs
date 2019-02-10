@@ -9,6 +9,7 @@ namespace Remont.Web.Repositories2.Repositories.Interfaces
 {
     public interface IAUConnectingRepository
     {
-        void ConnectUserWithAccount(User userToConnect, Account accountToConnect);
+        RepositoryActionResult<User> ConnectUserWithAccount(User userToConnect, Account accountToConnect);
+
     }
 }

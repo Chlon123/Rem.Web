@@ -14,6 +14,7 @@ namespace Remont.Web.Repositories2.Repositories.EnumClasses
         NotFound,
         Deleted,
         NothingModified,
-        Error
+        Error,
+        Connected
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Remont.Web.Models;
 using Remont.Web.Repositories;
+using Remont.Web.Repositories2.Repositories.EnumClasses;
 using Remont.Web.Repositories2.Repositories.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -18,20 +19,44 @@ namespace Remont.Web.Repositories2.Repositories
             _context = new RepositoryDbContext();
         }
 
-        public void ConnectUserWithAccount(User userToConnect, Account accountToConnect)
+        public RepositoryActionResult<User> ConnectUserWithAccount(User userToConnect, Account accountToConnect)
         {
-            User userToCon = _context.Users
-                .Where(u => u.UserId == userToConnect.UserId)
-                .FirstOrDefault();
+            try
+            {
+                if (userToConnect == null || accountToConnect == null)
+                {
+                    return new RepositoryActionResult<User>(userToConnect, RepositoryActionStatus.NotFound);
+                }
 
-            Account accountToCon = _context.Accounts
-                .Where(a => a.AccountId == accountToConnect.AccountId)
-                .FirstOrDefault();
+                User userToCon = _context.Users
+                    .Where(u => u.UserId == userToConnect.UserId)
+                    .FirstOrDefault();
 
-            userToCon.UserEmailAdress = accountToCon.AccountEmailAsLogin;
-            accountToCon.AccountOfUserId = userToCon.UserId;
+                Account accountToCon = _context.Accounts
+                    .Where(a => a.AccountId == accountToConnect.AccountId)
+                    .FirstOrDefault();
 
-            _context.SaveChanges();
+                userToCon.UserEmailAdress = accountToCon.AccountEmailAsLogin;
+                accountToCon.AccountOfUserId = userToCon.UserId;
+
+                _context.SaveChanges();
+
+                var checkUser = _context.Users.Where(u => u.UserEmailAdress == userToConnect.UserEmailAdress).FirstOrDefault();
+
+                if (checkUser == null)
+                {
+                    return new RepositoryActionResult<User>(checkUser, RepositoryActionStatus.NotFound);
+                }
+                else
+                {
+                    return new RepositoryActionResult<User>(checkUser, RepositoryActionStatus.Connected);
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
     }
 }

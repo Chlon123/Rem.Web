@@ -5,8 +5,8 @@ using Remont.Web.Repositories2.Repositories.EnumClasses;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Remont.Web.Repositories2.Repositories.RepositoryHelpers;
 using System.Net;
-using System.Net.Http;
 using System.Web.Http;
 
 namespace Remont.Web.Controllers
@@ -28,17 +28,37 @@ namespace Remont.Web.Controllers
             _unitOfWork = unitOfWork;
         }
 
-        [HttpGet]
-        public IHttpActionResult Get()
+        //[HttpGet]
+        //public IHttpActionResult Get()
+        //{
+        //    try
+        //    {
+        //        var allAccounts = _unitOfWork.AccountsRepository.GetAccounts();
+
+        //        return Ok(allAccounts);
+        //    }
+        //    catch (Exception)
+        //    {
+        //        return InternalServerError();
+        //    }
+        //}
+
+        public IHttpActionResult Get(string sort = "id")
         {
             try
             {
-                var allAccounts = _unitOfWork.AccountsRepository.GetAccounts();
+                var sortedAccounts = _unitOfWork.AccountsRepository.GetSortedAccounts(sort);
 
-                return Ok(allAccounts);
+                if (sortedAccounts == null)
+                {
+                    return NotFound();
+                }
+
+                return Ok(sortedAccounts);
             }
             catch (Exception)
             {
+
                 return InternalServerError();
             }
         }
@@ -63,6 +83,8 @@ namespace Remont.Web.Controllers
             }
         }
 
+
+
         [HttpPost]
         public IHttpActionResult Post([FromBody] Remont.Web.Models.Account accountToCreate)
         {
@@ -79,7 +101,7 @@ namespace Remont.Web.Controllers
 
                 if (_unitOfWork.AccountsRepository.IsAccountCreated(accountToCreate))
                 {
-                    return Created(Request.RequestUri + "/" + id, _unitOfWork.AccountsRepository.GetSingleAccount(accountCreated));
+                    return Created(Request.RequestUri + "/" + id, _unitOfWork.AccountsRepository.GetAccountById(accountToCreate.AccountId));
                 }
                 return BadRequest();
             }

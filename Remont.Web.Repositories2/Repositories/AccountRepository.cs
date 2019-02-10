@@ -2,6 +2,7 @@
 using Remont.Web.Repositories.Repositories.Interfaces;
 using Remont.Web.Repositories2.Repositories;
 using Remont.Web.Repositories2.Repositories.EnumClasses;
+using Remont.Web.Repositories2.Repositories.RepositoryHelpers;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -54,50 +55,12 @@ namespace Remont.Web.Repositories.Repositories
             }
         }
 
-        public bool DoesAccountHasEmail(string emailToCheck)
-        {
-
-            if (_context.Accounts
-                .Where(a => a.AccountEmailAsLogin == emailToCheck)
-                .Any())
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-
-        public bool DoesAccountHasPassword(string password)
-        {
-            if (_context.Accounts
-                .Where(a=>a.AccountPassword == password)
-                .Any())
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-
-            
-        }
-
         public Account GetAccountById(int id)
         {
             return _context.Accounts
                 .SingleOrDefault(a => a.AccountId == id);
         }
 
-        public IEnumerable<string> GetAccountEmailById(int accountId)
-        {
-            return _context.Accounts
-                .Where(a => a.AccountId == accountId)
-                .Select(a => a.AccountEmailAsLogin)
-                .ToList();
-        }
 
         public int GetAccountId(Account account)
         {
@@ -113,38 +76,17 @@ namespace Remont.Web.Repositories.Repositories
             return _context.Accounts.ToList();
         }
 
-        public string GetEmail(Account account)
-        {
-            return account.AccountEmailAsLogin;
-        }
 
-        public IEnumerable<string> GetPasswordByAccountId(int accountId)
-        {
-            return _context.Accounts
-                .Where(a => a.AccountId == accountId)
-                .Select(a => a.AccountPassword)
-                .ToList();
-
-        }
-
-        public IEnumerable<Account> GetSingleAccount(Account account)
-        {
-            var lookedAcc = GetAccounts()
-                                .Where(a => a.AccountId == account.AccountId)
-                                .ToList();
-            return lookedAcc;
-        }
-
-        public RepositoryActionResult<Account> UpdateAccount(Account account)
+        public RepositoryActionResult<Account> UpdateAccount(Account accountToUpdate)
         {
             try
             {
                 // you can only update when an expensegroup already exists for this id
-                var existingAcc = _context.Accounts.FirstOrDefault(a => a.AccountId == account.AccountId);
+                var existingAcc = _context.Accounts.FirstOrDefault(a => a.AccountId == accountToUpdate.AccountId);
 
                 if (existingAcc == null)
                 {
-                    return new RepositoryActionResult<Account>(account, RepositoryActionStatus.NotFound);
+                    return new RepositoryActionResult<Account>(accountToUpdate, RepositoryActionStatus.NotFound);
                 }
 
                 // change the original entity status to detached; otherwise, we get an error on attach
@@ -154,20 +96,20 @@ namespace Remont.Web.Repositories.Repositories
                 _context.Entry(existingAcc).State = EntityState.Detached;
 
                 // attach & save
-                _context.Accounts.Attach(account);
+                _context.Accounts.Attach(accountToUpdate);
 
                 // set the updated entity state to modified, so it gets updated.
-                _context.Entry(account).State = EntityState.Modified;
+                _context.Entry(accountToUpdate).State = EntityState.Modified;
 
                 var result = _context.SaveChanges();
 
                 if (result > 0)
                 {
-                    return new RepositoryActionResult<Account>(account, RepositoryActionStatus.Updated);
+                    return new RepositoryActionResult<Account>(accountToUpdate, RepositoryActionStatus.Updated);
                 }
                 else
                 {
-                    return new RepositoryActionResult<Account>(account, RepositoryActionStatus.NothingModified, null);
+                    return new RepositoryActionResult<Account>(accountToUpdate, RepositoryActionStatus.NothingModified, null);
                 }
             }
             catch (Exception)
@@ -206,6 +148,23 @@ namespace Remont.Web.Repositories.Repositories
 
                 throw;
             }
+        }
+
+        public IEnumerable<Account> GetSortedAccounts(string sortingParameter)
+        {
+            var sortedAccounts = _context.Accounts
+                .ApplySort(sortingParameter)
+                .ToList()
+                .Select(acc => new Account()
+                {
+                    AccountId = acc.AccountId,
+                    AccountEmailAsLogin = acc.AccountEmailAsLogin,
+                    AccountPassword = acc.AccountPassword,
+                    DateCreated = acc.DateCreated,
+                    LastModified = acc.LastModified,
+                });
+
+            return sortedAccounts;
         }
     }
 }

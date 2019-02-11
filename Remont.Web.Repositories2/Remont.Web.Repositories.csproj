@@ -51,7 +51,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DbContexts\DbContextsMagicStrings.cs" />
+    <Compile Include="DbContexts\Helpers\DbContextsMagicStrings.cs" />
     <Compile Include="Migrations\201902072037567_InitialModel.cs" />
     <Compile Include="Migrations\201902072037567_InitialModel.Designer.cs">
       <DependentUpon>201902072037567_InitialModel.cs</DependentUpon>
@@ -64,8 +64,10 @@
     <Compile Include="Repositories\AccountRepository.cs" />
     <Compile Include="Repositories\AUConnectionRepository.cs" />
     <Compile Include="Repositories\EnumClasses\RepositoryActionStatus.cs" />
+    <Compile Include="Repositories\Helpers\ListOfFields.cs" />
     <Compile Include="Repositories\Interfaces\IAccountRepository.cs" />
     <Compile Include="Repositories\Interfaces\IAUConnectingRepository.cs" />
+    <Compile Include="Repositories\Interfaces\IListOfFields.cs" />
     <Compile Include="Repositories\Interfaces\IUserRepository.cs" />
     <Compile Include="Repositories\Helpers\IQueryableExtensions.cs" />
     <Compile Include="Repositories\Helpers\RepositoryActionResult.cs" />

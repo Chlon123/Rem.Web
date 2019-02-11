@@ -17,7 +17,9 @@ namespace Remont.Web.Repositories.Repositories.Interfaces
         int GetAccountId(Account account);
         RepositoryActionResult<Account> UpdateAccount(Account accountToUpdate);
         RepositoryActionResult<Account> DeleteAccount(int id);
-        IEnumerable<Account> GetSortedAccounts(string sortingParameter);
+        object GetSortedAccountsWithFields(string sortingParameter, List<string> listOfFields);
+        object CreateDataShapeObject(Account accountToShape, List<string> listOfFields);
+
 
     }
 }

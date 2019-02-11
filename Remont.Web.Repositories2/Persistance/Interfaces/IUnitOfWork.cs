@@ -1,4 +1,5 @@
 ﻿using Remont.Web.Repositories.Repositories.Interfaces;
+using Remont.Web.Repositories2.Repositories.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +12,7 @@ namespace Remont.Web.Repositories.Persistance
     {
         IAccountRepository AccountsRepository { get; set; }
         IUserRepository UsersRepository { get; set; }
+        IListOfFields ListOfFields { get; set; }
         void Complete();
 
 

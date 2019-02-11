@@ -46,6 +46,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="CacheCow.Common, Version=0.6.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\CacheCow.Common.0.6.0\lib\net40\CacheCow.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="CacheCow.Server, Version=0.6.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\CacheCow.Server.0.6.0\lib\net40\CacheCow.Server.dll</HintPath>
+    </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
@@ -199,6 +205,9 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ControllerHelpers\ApiMagicStrings.cs" />
+    <Compile Include="ControllerHelpers\VersionConstraint.cs" />
+    <Compile Include="ControllerHelpers\VersionedRoute.cs" />
     <Compile Include="Controllers\AccountsController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Global.asax.cs">

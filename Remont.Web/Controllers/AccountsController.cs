@@ -8,6 +8,7 @@ using System.Linq;
 using Remont.Web.Repositories2.Repositories.RepositoryHelpers;
 using System.Net;
 using System.Web.Http;
+using Remont.Web.ControllerHelpers;
 
 namespace Remont.Web.Controllers
 {
@@ -42,19 +43,46 @@ namespace Remont.Web.Controllers
         //        return InternalServerError();
         //    }
         //}
-
-        public IHttpActionResult Get(string sort = "id")
+        [VersionedRoute("api/accounts", 2)]
+        public IHttpActionResult GetVer2(string sort = "accountid", string fields = null)
         {
             try
             {
-                var sortedAccounts = _unitOfWork.AccountsRepository.GetSortedAccounts(sort);
+                var listOfFIelds = _unitOfWork.ListOfFields.CreateListOfFields(fields);
 
-                if (sortedAccounts == null)
+                var sortedAccountsWithFields = _unitOfWork.AccountsRepository.GetSortedAccountsWithFields(sort, listOfFIelds);
+
+                if (sortedAccountsWithFields == null)
                 {
                     return NotFound();
                 }
 
-                return Ok(sortedAccounts);
+                return Ok(sortedAccountsWithFields);
+            }
+            catch (Exception)
+            {
+
+                return InternalServerError();
+            }
+        }
+
+
+
+        [VersionedRoute("api/accounts", 1)]
+        public IHttpActionResult Get(string sort = "accountid", string fields = null)
+        {
+            try
+            {
+                var listOfFIelds = _unitOfWork.ListOfFields.CreateListOfFields(fields);
+
+                var sortedAccountsWithFields = _unitOfWork.AccountsRepository.GetSortedAccountsWithFields(sort, listOfFIelds);
+
+                if (sortedAccountsWithFields == null)
+                {
+                    return NotFound();
+                }
+
+                return Ok(sortedAccountsWithFields);
             }
             catch (Exception)
             {

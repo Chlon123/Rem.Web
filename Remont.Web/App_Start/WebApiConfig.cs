@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Net.Http.Headers;
 using System.Web.Http;
+using CacheCow.Server;
 using Newtonsoft.Json.Serialization;
 
 namespace Remont.Web.API.App_Start
@@ -36,6 +37,13 @@ namespace Remont.Web.API.App_Start
 
             config.Formatters.JsonFormatter.SerializerSettings.ContractResolver
                 = new CamelCasePropertyNamesContractResolver();
+
+
+            //create cach handler and injected in request pipeline
+            //it is responsible to inspect each request and response coming to our API
+            // by looking for ETag, some MatchHeaders and does all the lifting for us
+            config.MessageHandlers.Add(new CachingHandler(config));
+
 
             return config;
         }

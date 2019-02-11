@@ -221,3 +221,7 @@ C:\Users\kacch\source\C#.Web.Projects\Rem.Web\Remont.Web\obj\Debug\Remont.Web.AP
 C:\Users\kacch\source\C#.Web.Projects\Rem.Web\Remont.Web\obj\Debug\Remont.Web.dll
 C:\Users\kacch\source\C#.Web.Projects\Rem.Web\Remont.Web\obj\Debug\Remont.Web.pdb
 C:\Users\kacch\source\C#.Web.Projects\Rem.Web\Remont.Web\bin\System.Linq.Dynamic.dll
+C:\Users\kacch\source\C#.Web.Projects\Rem.Web\Remont.Web\bin\CacheCow.Common.dll
+C:\Users\kacch\source\C#.Web.Projects\Rem.Web\Remont.Web\bin\CacheCow.Server.dll
+C:\Users\kacch\source\C#.Web.Projects\Rem.Web\Remont.Web\bin\CacheCow.Common.xml
+C:\Users\kacch\source\C#.Web.Projects\Rem.Web\Remont.Web\bin\CacheCow.Server.xml

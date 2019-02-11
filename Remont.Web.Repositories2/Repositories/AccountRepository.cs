@@ -6,7 +6,9 @@ using Remont.Web.Repositories2.Repositories.RepositoryHelpers;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Dynamic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -150,21 +152,55 @@ namespace Remont.Web.Repositories.Repositories
             }
         }
 
-        public IEnumerable<Account> GetSortedAccounts(string sortingParameter)
+        public object GetSortedAccountsWithFields(string sortingParameter, List<string> listOfFields)
         {
             var sortedAccounts = _context.Accounts
                 .ApplySort(sortingParameter)
                 .ToList()
-                .Select(acc => new Account()
-                {
-                    AccountId = acc.AccountId,
-                    AccountEmailAsLogin = acc.AccountEmailAsLogin,
-                    AccountPassword = acc.AccountPassword,
-                    DateCreated = acc.DateCreated,
-                    LastModified = acc.LastModified,
-                });
+                .Select(acc => CreateDataShapeObject(acc, listOfFields));
 
             return sortedAccounts;
         }
+
+        //public IEnumerable<Account> GetSortedAAccountsWithFields(string sortingParameter, List<string> listOfFields)
+        //{
+        //    var sortedAccounts = _context.Accounts
+        //        .ApplySort(sortingParameter)
+        //        .ToList()
+        //        .Select(acc => new Account()
+        //        {
+        //            AccountId = acc.AccountId,
+        //            AccountEmailAsLogin = acc.AccountEmailAsLogin,
+        //            AccountPassword = acc.AccountPassword,
+        //            DateCreated = acc.DateCreated,
+        //            LastModified = acc.LastModified,
+        //        });
+
+        //    return sortedAccounts;
+        //}
+
+        public object CreateDataShapeObject(Account accountToShape, List<string> listOfFields)
+        {
+            if (!listOfFields.Any())
+            {
+                return accountToShape;
+            }
+            else
+            {
+                ExpandoObject objectToReturn = new ExpandoObject();
+                foreach (var field in listOfFields)
+                {
+                    var fieldValue = accountToShape.GetType()
+                        .GetProperty(field, BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance)
+                        .GetValue(accountToShape, null);
+
+                    ((IDictionary<string, object>)objectToReturn).Add(field, fieldValue);
+                }
+
+                return objectToReturn;
+            }
+        }
+
+
     }
 }

@@ -13,7 +13,7 @@ namespace Remont.Web.Models
 
         public string GraphicComponentName { get; set; }
 
-        public byte GraphicComponentCode { get; set; }
+        public byte[] GraphicComponentCode { get; set; }
 
         public virtual User GradeOfUser { get; set; }
 

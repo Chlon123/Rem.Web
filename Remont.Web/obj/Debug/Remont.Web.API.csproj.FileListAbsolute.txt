@@ -225,3 +225,8 @@ C:\Users\kacch\source\C#.Web.Projects\Rem.Web\Remont.Web\bin\CacheCow.Common.dll
 C:\Users\kacch\source\C#.Web.Projects\Rem.Web\Remont.Web\bin\CacheCow.Server.dll
 C:\Users\kacch\source\C#.Web.Projects\Rem.Web\Remont.Web\bin\CacheCow.Common.xml
 C:\Users\kacch\source\C#.Web.Projects\Rem.Web\Remont.Web\bin\CacheCow.Server.xml
+C:\Users\kacch\source\C#.Web.Projects\Rem.Web\Remont.Web\bin\System.Web.Cors.dll
+C:\Users\kacch\source\C#.Web.Projects\Rem.Web\Remont.Web\bin\System.Web.Http.Cors.dll
+C:\Users\kacch\source\C#.Web.Projects\Rem.Web\Remont.Web\bin\System.Web.Http.Cors.xml
+C:\Users\kacch\source\C#.Web.Projects\Rem.Web\Remont.Web\bin\BCrypt.Net.dll
+C:\Users\kacch\source\C#.Web.Projects\Rem.Web\Remont.Web\bin\BCrypt.Net.xml

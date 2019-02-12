@@ -18,5 +18,7 @@ namespace Remont.Web.Repositories.Repositories.Interfaces
         int GetUserId(User user);
         RepositoryActionResult<User> UpdateUser(User userToUpdate);
         RepositoryActionResult<User> DeleteUser(int id);
+        object GetSortedUsersWithFields(string sortingParameter, List<string> listOfFields);
+        object CreateDataShapeObject(User userToShape, List<string> listOfFields);
     }
 }

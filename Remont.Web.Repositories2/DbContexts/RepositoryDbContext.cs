@@ -40,10 +40,10 @@ namespace Remont.Web.Repositories
 
             //Account settings
             _account
-                 .Property(a => a.AccountEmailAsLogin)
+                 .Property(a => a.AccountEmailAsLoginHash)
                  .IsRequired();
             _account
-                .Property(a => a.AccountPassword)
+                .Property(a => a.AccountPasswordHash)
                 .IsRequired();
             _account
                 .Property(a => a.AccountOfUserId)

@@ -29,3 +29,6 @@ C:\Users\kacch\source\C#.Web.Projects\Rem.Web\Remont.Web.Repositories2\obj\Debug
 C:\Users\kacch\source\C#.Web.Projects\Rem.Web\Remont.Web.Repositories2\obj\Debug\Remont.Web.Repositories2.dll
 C:\Users\kacch\source\C#.Web.Projects\Rem.Web\Remont.Web.Repositories2\obj\Debug\Remont.Web.Repositories2.pdb
 C:\Users\kacch\source\C#.Web.Projects\Rem.Web\Remont.Web.Repositories2\bin\Debug\System.Linq.Dynamic.dll
+C:\Users\kacch\source\C#.Web.Projects\Rem.Web\Remont.Web.Repositories2\obj\Debug\Remont.Web.Repositories.Migrations.ChangesInModelProperties.resources
+C:\Users\kacch\source\C#.Web.Projects\Rem.Web\Remont.Web.Repositories2\bin\Debug\BCrypt.Net.dll
+C:\Users\kacch\source\C#.Web.Projects\Rem.Web\Remont.Web.Repositories2\bin\Debug\BCrypt.Net.xml

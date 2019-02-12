@@ -10,6 +10,6 @@ namespace Remont.Web.Models.Interfaces
     {
         string GraphicComponentName { get; set; }
 
-        byte GraphicComponentCode { get; set; }
+        byte[] GraphicComponentCode { get; set; }
     }
 }

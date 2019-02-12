@@ -14,10 +14,10 @@ namespace Remont.Web.Models
         public int AccountId { get; set; }
 
         [DataType(DataType.EmailAddress)]
-        public string AccountEmailAsLogin { get; set; }
+        public string AccountEmailAsLoginHash { get; set; }
 
         [DataType(DataType.Password)]
-        public string AccountPassword { get; set; }
+        public string AccountPasswordHash { get; set; }
 
         public DateTime? DateCreated { get; set; }
 

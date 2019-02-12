@@ -36,12 +36,12 @@ namespace Remont.Web.Repositories2.Repositories
                     .Where(a => a.AccountId == accountToConnect.AccountId)
                     .FirstOrDefault();
 
-                userToCon.UserEmailAdress = accountToCon.AccountEmailAsLogin;
+                userToCon.UserEmailAdressHash = accountToCon.AccountEmailAsLoginHash;
                 accountToCon.AccountOfUserId = userToCon.UserId;
 
                 _context.SaveChanges();
 
-                var checkUser = _context.Users.Where(u => u.UserEmailAdress == userToConnect.UserEmailAdress).FirstOrDefault();
+                var checkUser = _context.Users.Where(u => u.UserEmailAdressHash == userToConnect.UserEmailAdressHash).FirstOrDefault();
 
                 if (checkUser == null)
                 {

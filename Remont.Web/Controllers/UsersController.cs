@@ -1,4 +1,5 @@
 ﻿using Marvin.JsonPatch;
+using Remont.Web.ControllerHelpers;
 using Remont.Web.Repositories;
 using Remont.Web.Repositories.Persistance;
 using Remont.Web.Repositories2.Repositories.EnumClasses;
@@ -28,33 +29,67 @@ namespace Remont.Web.Controllers
             _unitOfWork = unitOfWork;
         }
 
-        [HttpGet]
-        public IHttpActionResult Get()
+        [VersionedRoute("api/accounts", 2)]
+        public IHttpActionResult GetVer2(string sort = "userid", string fields = null)
         {
             try
             {
-                var allUsers = _unitOfWork.UsersRepository.GetUsers();
+                var listOfFIelds = _unitOfWork.ListOfFields.CreateListOfFields(fields);
 
-                return Ok(allUsers);
+                var sortedUsersWithFields = _unitOfWork.UsersRepository.GetSortedUsersWithFields(sort, listOfFIelds);
+
+                if (sortedUsersWithFields == null)
+                {
+                    return NotFound();
+                }
+
+                return Ok(sortedUsersWithFields);
             }
             catch (Exception)
             {
+
                 return InternalServerError();
             }
         }
+
+
+
+        [VersionedRoute("api/users", 1)]
+        public IHttpActionResult Get(string sort = "userid", string fields = null)
+        {
+            try
+            {
+                var listOfFIelds = _unitOfWork.ListOfFields.CreateListOfFields(fields);
+
+                var sortedUsersWithFields = _unitOfWork.UsersRepository.GetSortedUsersWithFields(sort, listOfFIelds);
+
+                if (sortedUsersWithFields == null)
+                {
+                    return NotFound();
+                }
+
+                return Ok(sortedUsersWithFields);
+            }
+            catch (Exception)
+            {
+
+                return InternalServerError();
+            }
+        }
+
 
         public IHttpActionResult Get(int id)
         {
             try
             {
-                var singleUser = _unitOfWork.UsersRepository.GetUserById(id);
-                if (singleUser == null)
+                var oneAccount = _unitOfWork.AccountsRepository.GetAccountById(id);
+                if (oneAccount == null)
                 {
                     return NotFound();
                 }
                 else
                 {
-                    return Ok(singleUser);
+                    return Ok(oneAccount);
                 }
             }
             catch (Exception)
@@ -62,6 +97,8 @@ namespace Remont.Web.Controllers
                 return InternalServerError();
             }
         }
+
+
 
         [HttpPost]
         public IHttpActionResult Post([FromBody] Remont.Web.Models.User userToCreate)
@@ -93,6 +130,7 @@ namespace Remont.Web.Controllers
         [HttpPut]
         public IHttpActionResult Put(int id, [FromBody]Remont.Web.Models.User user)
         {
+
             try
             {
                 if (user == null)
@@ -124,11 +162,11 @@ namespace Remont.Web.Controllers
         }
 
         [HttpPatch]
-        public IHttpActionResult Patch(int id, [FromBody]JsonPatchDocument<Remont.Web.Models.User> accountPatchDocument)
+        public IHttpActionResult Patch(int id, [FromBody]JsonPatchDocument<Remont.Web.Models.User> userPatchDocument)
         {
             try
             {
-                if (accountPatchDocument == null)
+                if (userPatchDocument == null)
                 {
                     return BadRequest();
                 }
@@ -140,13 +178,13 @@ namespace Remont.Web.Controllers
 
                 var usr = _unitOfWork.UsersRepository.CreateUser(user);
 
-                accountPatchDocument.ApplyTo(usr);
+                userPatchDocument.ApplyTo(usr);
 
                 var result = _unitOfWork.UsersRepository.UpdateUser(_unitOfWork.UsersRepository.CreateUser(usr));
                 if (result.Status == RepositoryActionStatus.Updated)
                 {
-                    var patchedAccount = _unitOfWork.UsersRepository.CreateUser(result.Entity);
-                    return Ok(patchedAccount);
+                    var patchedUser = _unitOfWork.UsersRepository.CreateUser(result.Entity);
+                    return Ok(patchedUser);
                 }
                 return BadRequest();
             }

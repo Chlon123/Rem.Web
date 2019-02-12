@@ -19,7 +19,7 @@ namespace Remont.Web.Models
 
         public string UserPhoneNumber { get; set; }
 
-        public string UserEmailAdress { get; set; }
+        public string UserEmailAdressHash { get; set; }
 
         public int UserYearsOfExperience { get; set; }
 

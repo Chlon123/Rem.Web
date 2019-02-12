@@ -23,7 +23,9 @@ namespace Remont.Web.API.App_Start
                 routeTemplate: "api/{controller}/{id}",
                 defaults: new { id = RouteParameter.Optional });
 
-            //config.Formatters.JsonFormatter.SupportedMediaTypes.Clear();
+            config.Formatters.JsonFormatter.SupportedMediaTypes.Clear();
+
+            config.Formatters.Remove(config.Formatters.XmlFormatter);
 
             config.Formatters.JsonFormatter.SupportedMediaTypes
                 .Add(new MediaTypeHeaderValue("application/json-patch+json"));
@@ -44,6 +46,7 @@ namespace Remont.Web.API.App_Start
             // by looking for ETag, some MatchHeaders and does all the lifting for us
             config.MessageHandlers.Add(new CachingHandler(config));
 
+            config.EnableCors();
 
             return config;
         }

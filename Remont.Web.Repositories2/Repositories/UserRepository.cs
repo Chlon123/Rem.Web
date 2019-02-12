@@ -2,10 +2,13 @@
 using Remont.Web.Repositories.Repositories.Interfaces;
 using Remont.Web.Repositories2.Repositories;
 using Remont.Web.Repositories2.Repositories.EnumClasses;
+using Remont.Web.Repositories2.Repositories.RepositoryHelpers;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Dynamic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -18,6 +21,29 @@ namespace Remont.Web.Repositories.Repositories
         public UserRepository(RepositoryDbContext context)
         {
             _context = context;
+        }
+
+        // REFLECTIONS
+        public object CreateDataShapeObject(User userToShape, List<string> listOfFields)
+        {
+            if (!listOfFields.Any())
+            {
+                return userToShape;
+            }
+            else
+            {
+                ExpandoObject objectToReturn = new ExpandoObject();
+                foreach (var field in listOfFields)
+                {
+                    var fieldValue = userToShape.GetType()
+                        .GetProperty(field, BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance)
+                        .GetValue(userToShape, null);
+
+                    ((IDictionary<string, object>)objectToReturn).Add(field, fieldValue);
+                }
+
+                return objectToReturn;
+            }
         }
 
         public User CreateUser(User userToCreate)
@@ -74,6 +100,16 @@ namespace Remont.Web.Repositories.Repositories
 
                 throw;
             }
+        }
+
+        public object GetSortedUsersWithFields(string sortingParameter, List<string> listOfFields)
+        {
+            var sortedUsers = _context.Users
+                .ApplySort(sortingParameter)
+                .ToList()
+                .Select(usr => CreateDataShapeObject(usr, listOfFields));
+
+            return sortedUsers;
         }
 
         public User GetUserById(int id)

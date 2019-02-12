@@ -3,6 +3,7 @@ using Remont.Web.Repositories.Repositories.Interfaces;
 using Remont.Web.Repositories2.Repositories;
 using Remont.Web.Repositories2.Repositories.EnumClasses;
 using Remont.Web.Repositories2.Repositories.RepositoryHelpers;
+using Remont.Web.Repositories2.Protection;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -11,6 +12,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using BCrypt.Net;
 
 namespace Remont.Web.Repositories.Repositories
 {
@@ -29,13 +31,21 @@ namespace Remont.Web.Repositories.Repositories
 
             Account newAcc = new Account()
             {
-            AccountEmailAsLogin = accountToCreate.AccountEmailAsLogin,
-            AccountPassword = accountToCreate.AccountPassword,
+            AccountEmailAsLoginHash = Hashing.HashPassword(accountToCreate.AccountEmailAsLoginHash),
+            AccountPasswordHash = Hashing.HashPassword(accountToCreate.AccountPasswordHash),
             DateCreated = DateTime.Now,
             LastModified = DateTime.Now,
             };
 
             _context.Accounts.Add(newAcc);
+            _context.SaveChanges();
+
+            User newUsr = new User()
+            {
+                UserEmailAdressHash = Hashing.HashPassword(accountToCreate.AccountEmailAsLoginHash)              
+            };
+
+            _context.Users.Add(newUsr);
             _context.SaveChanges();
 
             return newAcc;
@@ -45,7 +55,7 @@ namespace Remont.Web.Repositories.Repositories
         public bool IsAccountCreated(Account accountToCheck)
         {
             var check = _context.Accounts
-                        .Where(a => a.AccountEmailAsLogin == accountToCheck.AccountEmailAsLogin).FirstOrDefault();
+                        .Where(a => a.AccountEmailAsLoginHash == accountToCheck.AccountEmailAsLoginHash).FirstOrDefault();
 
             if (check != null)
             {

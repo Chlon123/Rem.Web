@@ -9,9 +9,11 @@ using Remont.Web.Repositories2.Repositories.RepositoryHelpers;
 using System.Net;
 using System.Web.Http;
 using Remont.Web.ControllerHelpers;
+using System.Web.Http.Cors;
 
 namespace Remont.Web.Controllers
 {
+    [EnableCors(origins: "*", headers: "*", methods: "*")]
     public class AccountsController : ApiController
     {
         private readonly IUnitOfWork _unitOfWork;
